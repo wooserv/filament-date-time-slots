@@ -11,6 +11,7 @@
     $extraAttributeBag = $getExtraAttributeBag();
     $id = $getId();
     $isDisabled = $isDisabled();
+    $isHorizontal = $isHorizontal();
     $maxDate = $getMaxDate();
     $minDate = $getMinDate();
     $statePath = $getStatePath();
@@ -71,6 +72,7 @@
                 wire:key="{{ $livewireKey }}.panel"
                 @class([
                     'fi-fo-inline-date-picker-panel',
+                    'fi-fo-inline-date-picker-panel-horizontal' => $isHorizontal,
                 ])
             >
                     <div class="fi-fo-inline-date-picker-panel-header">
@@ -98,44 +100,46 @@
                         </button>
                     </div>
 
-                    <div class="fi-fo-inline-date-picker-calendar-header">
-                        <template
-                            x-for="(day, index) in dayLabels"
-                            x-bind:key="index"
-                        >
-                            <div
-                                x-text="day"
-                                class="fi-fo-inline-date-picker-calendar-header-day"
-                            ></div>
-                        </template>
-                    </div>
+                    <div class="fi-fo-inline-date-picker-calendar-area">
+                        <div class="fi-fo-inline-date-picker-calendar-header">
+                            <template
+                                x-for="(day, index) in dayLabels"
+                                x-bind:key="index"
+                            >
+                                <div
+                                    x-text="day"
+                                    class="fi-fo-inline-date-picker-calendar-header-day"
+                                ></div>
+                            </template>
+                        </div>
 
-                    <div role="grid" class="fi-fo-inline-date-picker-calendar">
-                        <template
-                            x-for="day in emptyDaysInFocusedMonth"
-                            x-bind:key="day"
-                        >
-                            <div></div>
-                        </template>
+                        <div role="grid" class="fi-fo-inline-date-picker-calendar">
+                            <template
+                                x-for="day in emptyDaysInFocusedMonth"
+                                x-bind:key="day"
+                            >
+                                <div></div>
+                            </template>
 
-                        <template
-                            x-for="day in daysInFocusedMonth"
-                            x-bind:key="day"
-                        >
-                            <div
-                                x-text="day"
-                                x-on:click="selectDate(day)"
-                                role="option"
-                                x-bind:aria-selected="focusedDate.date() === day"
-                                x-bind:class="{
-                                    'fi-fo-inline-date-picker-calendar-day-today': dayIsToday(day),
-                                    'fi-focused': focusedDate.date() === day,
-                                    'fi-selected': dayIsSelected(day),
-                                    'fi-disabled': dayIsDisabled(day),
-                                }"
-                                class="fi-fo-inline-date-picker-calendar-day"
-                            ></div>
-                        </template>
+                            <template
+                                x-for="day in daysInFocusedMonth"
+                                x-bind:key="day"
+                            >
+                                <div
+                                    x-text="day"
+                                    x-on:click="selectDate(day)"
+                                    role="option"
+                                    x-bind:aria-selected="focusedDate.date() === day"
+                                    x-bind:class="{
+                                        'fi-fo-inline-date-picker-calendar-day-today': dayIsToday(day),
+                                        'fi-focused': focusedDate.date() === day,
+                                        'fi-selected': dayIsSelected(day),
+                                        'fi-disabled': dayIsDisabled(day),
+                                    }"
+                                    class="fi-fo-inline-date-picker-calendar-day"
+                                ></div>
+                            </template>
+                        </div>
                     </div>
 
                 <div class="fi-fo-inline-date-picker-slots">

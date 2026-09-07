@@ -3,12 +3,40 @@
 @source "../views";
 
 .fi-fo-inline-date-picker {
+    container-type: inline-size;
+    container-name: date-time-slot-picker;
+
     & .fi-fo-inline-date-picker-panel {
         @apply space-y-4 rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-900 dark:ring-white/10;
     }
 
     & .fi-fo-inline-date-picker-panel-header {
         @apply flex items-center justify-between border-b border-gray-200 pb-3 dark:border-white/10;
+    }
+
+    & .fi-fo-inline-date-picker-panel-horizontal {
+        @container date-time-slot-picker (min-width: 48rem) {
+            @apply grid h-[480px] min-h-[480px] grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)] grid-rows-[auto_minmax(0,1fr)] gap-5 space-y-0;
+
+            & .fi-fo-inline-date-picker-panel-header {
+                @apply col-span-2;
+            }
+
+            & .fi-fo-inline-date-picker-calendar-area {
+                @apply min-h-0;
+            }
+
+            & .fi-fo-inline-date-picker-slots {
+                @apply min-h-0 flex-col border-s border-t-0 ps-5 pt-0;
+
+                height: auto;
+                max-height: none;
+            }
+
+            & .fi-fo-inline-date-picker-slot-grid {
+                @apply min-h-0 flex-1 grid-cols-1 content-start overflow-y-auto pe-2;
+            }
+        }
     }
 
     & .fi-fo-inline-date-picker-month-button {
@@ -49,7 +77,10 @@
     }
 
     & .fi-fo-inline-date-picker-slots {
-        @apply border-t border-gray-200 pt-4 dark:border-white/10;
+        @apply flex min-h-[18rem] flex-col border-t border-gray-200 pt-4 dark:border-white/10;
+
+        height: min(28rem, 70vh);
+        max-height: min(28rem, 70vh);
     }
 
     & .fi-fo-inline-date-picker-slots-header {
@@ -77,11 +108,11 @@
     }
 
     & .fi-fo-inline-date-picker-slot-grid {
-        @apply grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4;
+        @apply min-h-0 flex-1 grid grid-cols-2 content-start gap-2 overflow-y-auto sm:grid-cols-3 lg:grid-cols-4;
     }
 
     & .fi-fo-inline-date-picker-slot {
-        @apply rounded-lg border border-gray-200 bg-white px-3 py-2 text-center text-sm font-medium text-gray-700 transition hover:border-primary-500 hover:bg-primary-50 hover:text-primary-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-primary-400 dark:hover:bg-primary-400/10 dark:hover:text-primary-300;
+        @apply flex h-10 items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-0 text-center text-sm font-medium text-gray-700 transition hover:border-primary-500 hover:bg-primary-50 hover:text-primary-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:border-primary-400 dark:hover:bg-primary-400/10 dark:hover:text-primary-300;
 
         &.fi-selected {
             @apply border-primary-600 bg-primary-600 text-white hover:bg-primary-600 dark:border-primary-500 dark:bg-primary-500 dark:text-white;

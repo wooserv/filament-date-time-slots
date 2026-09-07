@@ -16,6 +16,21 @@ final class DateTimeSlotPickerTest extends TestCase
         $this->assertSame(0, $picker->getMinimumLeadTime());
         $this->assertSame(1, $picker->getFirstDayOfWeek());
         $this->assertFalse($picker->shouldShowBlockedSlots());
+        $this->assertTrue($picker->isHorizontal());
+    }
+
+    public function test_it_uses_horizontal_layout_by_default(): void
+    {
+        $picker = DateTimeSlotPicker::make('due_at');
+
+        $this->assertTrue($picker->isHorizontal());
+    }
+
+    public function test_it_supports_vertical_layout(): void
+    {
+        $picker = DateTimeSlotPicker::make('due_at')->vertical();
+
+        $this->assertFalse($picker->isHorizontal());
     }
 
     public function test_it_exposes_slot_configuration_and_supports_closures(): void

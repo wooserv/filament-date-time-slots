@@ -19,6 +19,8 @@ A Filament form field that displays a calendar and configurable future time slot
 - Past dates and past slots are disabled automatically.
 - 12-hour / 24-hour display toggle without changing the stored value.
 - Timezone, locale, RTL, and dark-mode support through Filament assets.
+- Horizontal layout by default on containers wide enough, with a responsive vertical fallback.
+- Independently scrollable time slots in both horizontal and vertical layouts.
 - Stores one predictable datetime value; no separate appointment table is required.
 
 ## Installation
@@ -84,6 +86,17 @@ DateTimeSlotPicker::make('due_at')
 ```
 
 `availableSlots()` takes priority over generated working-hour slots for the matching date. `minimumLeadTime()` applies to both the calendar and the individual time slots, preventing selections that are too close to the current time.
+
+The picker uses a horizontal layout by default when its container is at least `48rem` wide. On smaller containers, including mobile layouts, it falls back to a vertical layout automatically. The width is measured from the field's own container, so narrow Filament grid columns remain vertical even on larger screens.
+
+Use `vertical()` to force the vertical layout at every width:
+
+```php
+DateTimeSlotPicker::make('due_at')
+    ->vertical();
+```
+
+Time slots use an independent scroll area in both layouts. The vertical layout keeps a minimum height and a bounded height so a large number of slots does not expand the entire form.
 
 ## Testing
 

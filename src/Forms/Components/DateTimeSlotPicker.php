@@ -51,6 +51,8 @@ class DateTimeSlotPicker extends Field
 
     protected bool | Closure $showBlockedSlots = false;
 
+    protected bool | Closure $vertical = false;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -184,6 +186,13 @@ class DateTimeSlotPicker extends Field
         return $this;
     }
 
+    public function vertical(bool | Closure $condition = true): static
+    {
+        $this->vertical = $condition;
+
+        return $this;
+    }
+
     public function weekStartsOnMonday(): static
     {
         return $this->firstDayOfWeek(1);
@@ -211,6 +220,11 @@ class DateTimeSlotPicker extends Field
     public function getFirstDayOfWeek(): int
     {
         return $this->firstDayOfWeek ?? 1;
+    }
+
+    public function isHorizontal(): bool
+    {
+        return ! (bool) $this->evaluate($this->vertical);
     }
 
     public function getFormat(): string
