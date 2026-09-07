@@ -1,0 +1,38 @@
+name: Compatibility
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }} / Filament ${{ matrix.filament }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { php: '8.2', laravel: '11.*', filament: '^3.2' }
+          - { php: '8.2', laravel: '11.*', filament: '^4.0' }
+          - { php: '8.3', laravel: '11.*', filament: '^4.0' }
+          - { php: '8.2', laravel: '12.*', filament: '^4.0' }
+          - { php: '8.3', laravel: '12.*', filament: '^4.0' }
+          - { php: '8.3', laravel: '12.*', filament: '^5.0' }
+          - { php: '8.2', laravel: '12.*', filament: '^5.0' }
+          - { php: '8.3', laravel: '13.*', filament: '^5.0' }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, dom, sqlite3, pdo_sqlite
+          coverage: none
+      - name: Configure test dependencies
+        run: |
+          composer require --no-interaction --no-update \
+            "laravel/framework:${{ matrix.laravel }}" \
+            "filament/filament:${{ matrix.filament }}"
+      - name: Install dependencies
+        run: composer update --no-interaction --prefer-dist
+      - name: Run tests
+        run: composer test

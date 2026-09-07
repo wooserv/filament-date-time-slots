@@ -1,0 +1,25 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev:scripts": "node scripts/build.js --dev",
+        "build:scripts": "node scripts/build.js",
+        "dev:styles": "npx @tailwindcss/cli -i ./resources/css/components/date-time-slot-picker.css -o ./resources/dist/components/date-time-slot-picker.css --watch",
+        "build:styles": "npx @tailwindcss/cli -i ./resources/css/components/date-time-slot-picker.css -o ./resources/dist/components/date-time-slot-picker.css --minify",
+        "dev": "npm-run-all --parallel dev:*",
+        "build": "npm-run-all build:*"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.0.6",
+        "esbuild": "^0.25.5",
+        "prettier": "^3.5.3",
+        "npm-run-all": "^4.1.5"
+    },
+    "dependencies": {
+        "dayjs": "^1.11.13"
+    },
+    "allowScripts": {
+        "esbuild@0.25.12": true,
+        "@parcel/watcher@2.5.1": true
+    }
+}
