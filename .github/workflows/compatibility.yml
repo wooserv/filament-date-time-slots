@@ -2,37 +2,96 @@ name: Compatibility
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 jobs:
   test:
     name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }} / Filament ${{ matrix.filament }}
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
         include:
-          - { php: '8.2', laravel: '11.*', filament: '^3.2' }
-          - { php: '8.2', laravel: '11.*', filament: '^4.0' }
-          - { php: '8.3', laravel: '11.*', filament: '^4.0' }
-          - { php: '8.2', laravel: '12.*', filament: '^4.0' }
-          - { php: '8.3', laravel: '12.*', filament: '^4.0' }
-          - { php: '8.3', laravel: '12.*', filament: '^5.0' }
-          - { php: '8.2', laravel: '12.*', filament: '^5.0' }
-          - { php: '8.3', laravel: '13.*', filament: '^5.0' }
+          # Laravel 11
+          - php: '8.2'
+            laravel: '11.*'
+            filament: '^3.2'
+            legacy: true
+
+          - php: '8.3'
+            laravel: '11.*'
+            filament: '^4.0'
+            legacy: true
+
+          - php: '8.4'
+            laravel: '11.*'
+            filament: '^5.0'
+            legacy: true
+
+          # Laravel 12
+          - php: '8.2'
+            laravel: '12.*'
+            filament: '^3.2'
+            legacy: false
+
+          - php: '8.3'
+            laravel: '12.*'
+            filament: '^4.0'
+            legacy: false
+
+          - php: '8.4'
+            laravel: '12.*'
+            filament: '^5.0'
+            legacy: false
+
+          - php: '8.5'
+            laravel: '12.*'
+            filament: '^5.0'
+            legacy: false
+
+          # Laravel 13
+          - php: '8.3'
+            laravel: '13.*'
+            filament: '^5.0'
+            legacy: false
+
+          - php: '8.4'
+            laravel: '13.*'
+            filament: '^5.0'
+            legacy: false
+
+          - php: '8.5'
+            laravel: '13.*'
+            filament: '^5.0'
+            legacy: false
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: mbstring, dom, sqlite3, pdo_sqlite
           coverage: none
+          tools: composer:v2
+
+      - name: Allow legacy Laravel installation
+        if: matrix.legacy
+        run: composer config audit.block-insecure false
+
       - name: Configure test dependencies
         run: |
           composer require --no-interaction --no-update \
             "laravel/framework:${{ matrix.laravel }}" \
             "filament/filament:${{ matrix.filament }}"
+
       - name: Install dependencies
-        run: composer update --no-interaction --prefer-dist
+        run: composer update --no-interaction --prefer-dist --with-all-dependencies
+
       - name: Run tests
         run: composer test
