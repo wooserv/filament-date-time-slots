@@ -8,7 +8,7 @@ A Filament form field that displays a calendar and configurable future time slot
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-    <img src=".github/assets/filament-date-time-slots.png" alt="Filament Date Time Slots">
+    <img class="filament-hidden" src=".github/assets/filament-date-time-slots.png" alt="Filament Date Time Slots">
 </p>
 
 ## Features
