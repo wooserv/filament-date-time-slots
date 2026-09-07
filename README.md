@@ -7,6 +7,10 @@ A Filament form field that displays a calendar and configurable future time slot
 [![Total Downloads](https://img.shields.io/packagist/dt/wooserv/filament-date-time-slots.svg)](https://packagist.org/packages/wooserv/filament-date-time-slots)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+<p align="center">
+    <img src=".github/assets/filament-date-time-slots.png" alt="Filament Date Time Slots">
+</p>
+
 ## Features
 
 - Inline calendar with configurable working hours.
